@@ -7,7 +7,7 @@ Ez a FiveM szerver nem egy Plug and Play szerver, csak tapasztalt fejlesztőknek
 - Varázslást vezérlő script
 - Klánokat vezérlő script
 - Könyveket vezérlő script
- ...
+- Egyéb ...
 
 ## Betöltő sorok (server.cfg)
 
@@ -98,4 +98,4 @@ start cui_wardrobe\
 start esx_vehiclelock\
 start esx_magiaugy\
 start petshop\
-start eden_animal\
+start eden_animal
