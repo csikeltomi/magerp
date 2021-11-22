@@ -1,0 +1,84 @@
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<body style="display: none;">
+    <main>
+        <div id="parchment"></div>
+        <div id="contain">
+            <p class="inkTitle" id="Title">In hoc Signo vinces</p>
+            <p id="labarum">
+            </p>
+            <p id="Text"></p>
+            <p class="cachet"><img src="https://i.postimg.cc/4NBYNqCR/22.png"></p>
+            <div onclick="Alairas()" id="signature">
+                <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u><br />Aláírás<br />Elfogadom
+                a feltételeket és teljesítem a küldetést
+            </div>
+        </div>
+    </main>
+
+    <svg>
+        <filter id="wavy2">
+            <feturbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feturbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+
+    <script>
+        var resource = ""
+        function Alairas() {
+            $("body").hide()
+            $.post("https://dialog/Accept", JSON.stringify({ resource: resource, value: true }));
+            $.post("https://dialog/Close", JSON.stringify({}));
+        }
+
+        $(document).keyup(function (e) {
+            console.log(e.key)
+            if (e.key === "Escape") { // escape key maps to keycode `27`
+                $("body").hide()
+                $.post("https://dialog/Close", JSON.stringify({}));
+                $.post("https://dialog/Accept", JSON.stringify({ resource: resource, value: false }));
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            console.log("LOAD")
+            setTimeout(function () {
+                ScrollHeight();
+            }, 500)
+
+        });
+
+        // Redraw when viewport is modified
+        window.addEventListener('resize', function (event) {
+            ScrollHeight();
+        });
+
+        window.addEventListener("message", function (event) {
+            if (event.data.action == "Display") {
+                $("body").show()
+                $("body").css("opacity","0")
+                $("#Title").html(event.data.Title)
+                $("#Text").html(event.data.text)
+                resource = event.data.resource
+                setTimeout(function () {
+                    ScrollHeight();
+                    $("body").css("opacity","1")
+                }, 500)
+                
+                //window.location.reload();
+            }
+        });
+
+        function ScrollHeight() {
+            var content = document.querySelector('#parchment');
+            var container = document.querySelector('#contain');
+
+            // SVG feTurbulence can modify all others elements, that's why "parchment" is in absolute position.
+            // so for a better effect, absolute height is defined by his content.
+            content.style.height = container.offsetHeight + 'px';
+        }
+    </script>
+</body>

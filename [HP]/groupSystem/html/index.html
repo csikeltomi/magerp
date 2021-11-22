@@ -1,0 +1,461 @@
+<head>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="./css/uikit.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link href="./css/select2.min.css" rel="stylesheet" />
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit-icons.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script src="./js/select2.min.js"></script>
+    <style>
+        .admin {
+            display: none;
+        }
+
+        .tag,
+        .tag:hover {
+            text-decoration: none;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #taglista {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #000000;
+            border: 2px solid #555555;
+        }
+
+        html {
+            background: none;
+        }
+
+        body {
+            background: #000000cc;
+        }
+
+        .ui-timepicker-container {
+            z-index: 9999 !important;
+        }
+
+        .uk-card-primary> :not([class*='uk-card-media']) {
+            color: white;
+        }
+    </style>
+</head>
+
+<body style="display: none;">
+    <div id="klan" style="display: none;">
+        <div class="uk-container uk-container-center  uk-margin-top uk-margin-large-bottom">
+            <button uk-toggle="target: #CreateClan"
+                class="hideclan uk-button uk-button-large uk-position-center uk-button-primary"><span
+                    uk-icon="icon: plus; ratio: 1"></span> LÉTREHOZÁS</button>
+            <div uk-grid class="uk-margin-medium-top showclan">
+                <div class="uk-width-1-3">
+                    <div class="uk-card uk-card-default uk-card-secondary uk-card-body">
+                        <h3 class="uk-card-title">TAGOK</h3>
+                        <div id='taglista'></div>
+                    </div>
+                </div>
+                <div class="uk-width-2-3">
+                    <div class="uk-card uk-card-default uk-card-warningt uk-card-body">
+                        <h3 class="uk-card-title">BEÁLLÍTÁSOK</h3>
+                        <button uk-toggle="target: #tagfelvetel" class="uk-button uk-button-primary admin"><span
+                                uk-icon="icon: plus; ratio: 1"></span>
+                            FELVÉTEL</button>
+                        <button onclick="KickPlayer()" class="uk-button uk-button-secondary admin"><span
+                                uk-icon="icon: minus; ratio: 1"></span> KIRÚGÁS</button>
+                        <button uk-toggle="target: #my-id" class="uk-button uk-button-secondary admin"><span
+                                uk-icon="icon: plus; ratio: 1"></span> BEÁLLÍTÁSOK</button>
+                        <p><button onclick="LeaveClan()" class="uk-button uk-button-secondary"><span
+                                    uk-icon="icon: plus; ratio: 1"></span> KILÉPÉS A KLÁNBÓL</button></p>
+                        <div id="HQS"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="my-id" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">BEÁLLÍTÁSOK</h2>
+                <form>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Frakció neve</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" id="form-stacked-text" disabled name="FrakiNev" type="text"
+                                placeholder="Frakció neve">
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Csata időpont (Védekezés esetében)</label>
+                        <p>
+                        <div id="vedoDate">
+                            <input class="uk-input timepicker" disabled name="vedoDate">
+                        </div>
+                        </p>
+                    </div>
+                </form>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Bezárás</button>
+                </p>
+            </div>
+        </div>
+        <div id="CreateClan" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">LÉTREHOZÁS</h2>
+                <form>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Frakció neve</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" id="form-stacked-text" name="CFrakiNev" type="text"
+                                placeholder="Frakció neve">
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Csata időpont (Védekezés esetében)</label>
+                        <p>
+                        <div id="vedoDate">
+                            <input class="uk-input timepicker" name="CvedoDate">
+                        </div>
+                        </p>
+                    </div>
+                </form>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Bezárás</button>
+                    <button class="uk-button uk-button-primary" onclick="CreateProfile()"
+                        type="button">Létrehozás</button>
+                </p>
+            </div>
+        </div>
+        <div id="tagfelvetel" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">TAGFELVÉTEL</h2>
+                <form>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Varázsló neve</label>
+                        <div class="uk-form-controls">
+                            <select id="onlinePlayers" style="width: 100%;">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Bezárás</button>
+                    <button class="uk-button uk-button-primary" onclick="InvitePlayer()" type="button">Felvétel</button>
+                </p>
+            </div>
+        </div>
+        <div id="Tamadas" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">HÁBORÚ</h2>
+                <h4 id="LIMIT" class="uk-modal-title">0 / 25</h4>
+                <div class="uk-form-controls haboruTagok"></div>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Bezárás</button>
+                    <button class="uk-button uk-button-primary" onclick="SaveAttack()" type="button">Mentés</button>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="cast" style="display: none;" class="uk-margin uk-padding">
+
+        <div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
+            <div>
+                <div class="uk-card uk-card-primary uk-card-body"
+                    style="background-color: #09ff00a2;color: white !important;">
+                    <h3 class="uk-card-title">Gyógyítók</h3>
+                    <p>A Gyógyítók egész életüket mágusok megsegítésre fordították, de nem voltak pártatlanok. 
+                        Csatákban is részt vettek és azt a klánt támogatták amelyik a legtöbb segítséget nyújtotta vérvonaluk számára. 
+                        Mesterei a Resurrectio varázslatnak, amellyel visszahozhatják az életbe a holtakat. Önvédelemre használhatnak bármilyen varázslatot, akár halálosat is.  
+                        Ha tulajdonukba kerül az ősi erejük forrása a zöld kristály, gyorsabban gyógyulnak a sérüléseik.</p>
+                    <p>
+                    <ul class="uk-list">
+                        <li><span uk-icon="plus"></span> 0.08 eletregeneráció szintenként</li>
+                        <li><span uk-icon="heart"></span>Az életerőd 30%-át használod a Resurrectio varázslatnál</li>
+                        <li><span uk-icon="bolt"></span> 10%-al hatékonyabb a zöld kristály hatása</li>
+                    </ul>
+                    </p>
+                    <p> <button class=" uk-button uk-button-primary" onclick="SelectCast('zold')">KIVÁLASZTÁS</button> </p>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-primary uk-card-body" style="background-color: #ff0000a2;color: white;">
+                    <h3 class="uk-card-title">Védelmezők</h3>
+                    <p>A védelmezők nagyon erősek. Nem azért nevezték őket védelmezőknek, mert védelmezték a mágusokat, hanem azért mert a 
+                        vérükben áramló vörösen izzó vér nagyobb ellenállást biztosít számukra az ártó varázslatok ellen. Mesterei a Defendo varázslatnak, amellyel egy védőpajzsot idéznek meg.
+                         Ha tulajdonukba kerül az ősi erejük forrása a vörös kristály, sokkal ellenállóbbak lesznek.</p>
+                    <p>
+                    <ul class="uk-list">
+                        <li><span uk-icon="plus"></span> 30% max életerő</li>
+                        <li><span uk-icon="bolt"></span> Hatékonyabb Defendo varázslat</li>
+                        <li><span uk-icon="bolt"></span> 10%-al hatékonyabb a vörös kristály hatása</li>
+                    </ul>
+                    </p>
+                    <p> <button class="uk-button uk-button-primary"  onclick="SelectCast('voros')">KIVÁLASZTÁS</button> </p>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-primary uk-card-body" style="background-color: #006effa2;color: white;">
+                    <h3 class="uk-card-title">Ősmágus</h3>
+                    <p>Az Ősmágusok képviselik a legősibb és legtisztább vérvonalat. Számukra a térben való mozgás nem akadály. Mesterei a Permoveo varázslatnak, amellyel teleportálni tudnak kisebb távolságokba.
+                         Ezt a tudást bármely mágus elsajátíthatja, de soha nem tudja majd olyan szinten megidézni mint egy Ősmágus. 
+                        A legfontosabb a saját vérvonaluk megőrzése és nem szívesen társulnak más vérvonalakkal. Ha tulajdonukba kerül az ősi erejük forrása a kék kristály, a varázserejük gyorsabban regenerálódik.</p>
+                    <p>
+                    <ul class="uk-list">
+                        <li><span uk-icon="plus"></span> 0.05 varázserő regeneráció szintenként</li>
+                        <li><span uk-icon="bolt"></span> A Permoveo 50%-al kevesebb varázserőt igényel és 50%-al
+                        gyorsabb a megidézése</li>
+                        <li><span uk-icon="bolt"></span> 10%-al hatékonyabb a kék kristály hatása</li>
+                    </ul>
+                    </p>
+                    <p> <button class="uk-button uk-button-primary"  onclick="SelectCast('kek')">KIVÁLASZTÁS</button> </p>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-primary uk-card-body" style="background-color: #ffd900a2;color: white;">
+                    <h3 class="uk-card-title">Időtlenek</h3>
+                    <p>Az Időtlenek számára az idő nem mérvadó. Egyszerre léteznek az idő minden pillanatában. Könnyedén befolyásolják az idő múlását, mesterei a Prohibere Momentum varázslatnak, amellyel képesek megállítani az időt.
+                        Más mágusok számára ez sok varázserőt igényel, de az Időtlenek vérében van ez a tudás. Nem érdekli őket a többi vérvonal, ugyanis számukra az idő nem lineáris. 
+                        Ők az egész univerzum minden pillanatát átlátják és előrelátóan hozzák meg döntéseiket. Ha tulajdonukba kerül az ősi erejük forrása a sárga kristály, pillanatokkal előre tudnak utazni az időben, így gyorsabban tudják a varázslatokat megidézni.</p>
+                    <p>
+                    <ul class="uk-list">
+                        <li><span uk-icon="plus"></span> szintenként 0.05%-al gyorsabban idézheted meg a varázslatokat
+                        </li>
+                        <li><span uk-icon="bolt"></span> A Prohibere Momentum 50%-al kevesebb varázserőt igényel és
+                            50%-al gyorsabb a megidézése</li>
+                        <li><span uk-icon="bolt"></span> 10%-al hatékonyabb a sárga kristály hatása</li>
+                    </ul>
+                    </p>
+                    <p> <button class="uk-button uk-button-primary"  onclick="SelectCast('sarga')">KIVÁLASZTÁS</button> </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        var limit = 25
+        var dt = $('.timepicker').timepicker({
+            timeFormat: 'HH:mm',
+            interval: 60,
+            minTime: '15',
+            maxTime: '21:00',
+            defaultTime: "15",
+            startTime: '15:00',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+        });
+
+
+
+        $("#onlinePlayers").select2();
+        window.addEventListener("message", function (event) {
+
+            if (event.data.action == "Display") {
+
+                $('#klan').show();
+                $('body').show();
+                console.log(event.data.group.GroupID)
+                if (event.data.group.GroupID == null) {
+                    $(".showclan").hide()
+                } else {
+                    $("#taglista").html("")
+                    $("#onlinePlayers").html()
+                    console.log(event.data.group.Name)
+                    $(".showclan").show()
+                    $(".hideclan").hide()
+                    $(".csapatGomb").hide()
+
+
+                    //` + new Date(event.data.group.WarDate).toISOString() + `
+                    $("input[name='FrakiNev']").val(event.data.group.Name)
+                    $('input.timepicker').val(event.data.group.WarDate)
+                    //$("input[name='CvedoDate']").val()
+                    $(".FrakiNev").html(event.data.group.Name)
+                    event.data.group.onlinePlayers.forEach(player => {
+                        $("#onlinePlayers").append(`<option>` + player.firstname + ' ' + player.lastname + `</option>`)
+                    });
+                    var members = event.data.members
+                    members.sort(function (a, b) {
+                        return b.level - a.level;
+                    });
+
+
+                    event.data.group.HQS.forEach(hq => {
+                        var ownedClass = ""
+                        if (hq.owned) {
+                            ownedClass = "ownedHq"
+                        }
+                        $("#HQS").append(`
+                        <div id="`+ hq.item + `" uk-grid class="uk-margin-small-top showclan hqHide">
+                        <div style="background: rgba(`+ hq.color + `);"
+                                class="uk-width-1-1 uk-margin-small-top uk-margin-medium-left uk-padding-small uk-card-small uk-card-default uk-card-body">
+                                <div class="uk-card-title"></div>
+                                <div uk-grid>
+                                    <div class=""><span style="color:white" uk-icon="icon: home; ratio: 2"></span></div>
+                                    <div class="">
+                                        <div uk-grid class="uk-margin-remove">
+                                            <div class=""><span style="color: white" class="uk-text-right uk-text-large uk-text-uppercase">`+ hq.Name + `</span></div>                                        
+                                        </div>
+                                        <div uk-grid class="uk-margin-remove">
+                                            <div class="uk-text-italic"><span style="color: white" class="uk-text-right uk-text-large">`+ hq.OwnerName + `</span></div>                                        
+                                        </div>                                   
+                                    </div>
+                                    <div class="uk-align-right admin ` + ownedClass + ` tamadasGomb"><button onclick="DeclareWar('` + hq.item + `')" class="uk-button uk-button-secondary">TÁMADÁS</button></div>
+                                    <div class="uk-align-right admin csapatGomb"><button onclick="AttackMenu('`+ hq.ID + `')" class="uk-button uk-button-secondary">CSAPAT</button></div>
+                                </div>
+                            </div>
+                        </div>
+                        `)
+                    })
+
+                    members.forEach(member => {
+                        $("#taglista").append(`<p><span class="uk-label uk-text-default tag">` + member.firstname + ' ' + member.lastname + `</span> <span class="uk-label uk-text-default">` + "(" + member.level + ")" + `</span></p>`)
+                        $(".haboruTagok").append(`<p><input class="uk-padding-medium-left uk-checkbox" type="checkbox" name="` + member.firstname + ' ' + member.lastname + `"><span class='uk-padding-small'>` + member.firstname + ' ' + member.lastname + ' ' + "(" + member.level + ")" + `</span></p>`)
+                        $('.tag').click(function () {
+                            // $(this).addClass("uk-label-default")
+                            $('.tag').each(function (elem) {
+                                $(elem).removeClass("uk-label-success");
+                            })
+                            console.log("CLICKED")
+                            $(this).addClass("uk-label-success")
+                        });
+                        $('input[name="' + member.firstname + ' ' + member.lastname + '"]').change(function () {
+                            if ($(this).prop("checked")) {
+                                limit -= 1
+                                console.log("CHECKED")
+                            }
+                            else {
+                                limit += 1
+                                console.log("UNCHECKED")
+                            }
+                            $("#LIMIT").html(25 - limit + " / 25")
+                        });
+                    });
+
+                    $(".admin").hide()
+                    if (event.data.group.isAdmin == true) {
+                        $(".admin").show()
+                        $(".tamadasGomb").show()
+                    }
+
+                    $(".csapatGomb").hide()
+                    $(".ownedHq").hide()
+                    if (event.data.group.War) {
+                        $(".hqHide").hide()
+                        $(".tamadasGomb").hide()
+                        $(".csapatGomb").show()
+                        $("#" + event.data.group.War.hq).show()
+                    }
+
+
+                }
+            }
+            if(event.data.action == 'cast'){
+                $('#cast').show();
+                $('body').show();
+            }
+        });
+
+        function SaveProfile() {
+            console.log($("input[name='vedoDate_value']").val())
+        }
+
+        function CreateProfile() {
+            $.post("https://groupSystem/Create", JSON.stringify({
+                name: $("input[name='CFrakiNev']").val(),
+                date: $("input[name='CvedoDate']").val(),
+            }));
+            $.post("https://groupSystem/Close", JSON.stringify({}));
+            $('body').hide();
+            UIkit.modal("#CreateClan").hide();
+        }
+
+        function AttackMenu(house) {
+            UIkit.modal("#Tamadas").show();
+
+
+        }
+
+        function SelectCast(cast){
+            $.post("https://groupSystem/SelectCast", JSON.stringify({
+                cast: cast,
+            }));
+            Close();
+        }
+
+        function DeclareWar(house) {
+            console.log(house)
+            $.post("https://groupSystem/DeclareWar", JSON.stringify({
+                hq: house,
+            }));
+            Close();
+        }
+
+        function SaveAttack() {
+            var attackTeam = []
+            $(".haboruTagok input").each(function () {
+                if ($(this).prop("checked")) {
+                    console.log($(this).attr('name'))
+                    attackTeam.push($(this).attr('name'))
+                }
+            })
+            $.post("https://groupSystem/SaveCsapat", JSON.stringify({
+                teamsetup: attackTeam,
+            }));
+            Close();
+        }
+
+        function KickPlayer() {
+            $('.tag').each(function () {
+                // $(this).addClass("uk-label-default")
+                if ($(this).hasClass("uk-label-success")) {
+                    console.log("KICK " + $(this).html())
+                    $.post("https://groupSystem/Kick", JSON.stringify({
+                        name: $(this).html(),
+                    }));
+                }
+                Close()
+            });
+        }
+
+        function InvitePlayer() {
+            $.post("https://groupSystem/Invite", JSON.stringify({
+                name: $("#onlinePlayers").select2("val"),
+            }));
+            UIkit.modal("#tagfelvetel").hide();
+        }
+
+        function LeaveClan() {
+            $.post("https://groupSystem/Leave", JSON.stringify({}));
+            Close()
+        }
+
+        $(document).keyup(function (e) {
+            console.log(e.key)
+            if (e.key === "Escape") { // escape key maps to keycode `27`
+                Close()
+            }
+        });
+
+        function Close() {
+            $('body').hide();
+            $.post("https://groupSystem/Close", JSON.stringify({}));
+            window.location.reload();
+        }
+    </script>
+</body>

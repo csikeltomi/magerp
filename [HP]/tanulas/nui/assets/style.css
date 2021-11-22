@@ -1,0 +1,117 @@
+button {
+  display:block;
+}
+
+@font-face {
+  font-family: NoWizard;
+  src: url(./NoWizard.ttf);
+}
+
+body{
+  overflow: hidden;
+  font-family: NoWizard;
+  font-weight: bold;
+  color: rgb(5, 6, 70);
+}
+
+p{
+  font-size: 22px;
+}
+
+#question-div{
+  text-align: center;
+}
+
+#results{
+  text-align: center;
+  font-size: 26px;
+}
+
+.icon{
+  transform: translate(18vw, 0%);
+  box-shadow: rgb(0 0 0) 0px 17px 79px -6px;
+  position: absolute;
+  bottom: 65px;
+  width: 100px;
+}
+
+#choices{
+  transform: translate(40%, 0%);
+  
+}
+#choices button{
+  min-width: 350px;
+  margin:45px;
+  font-family: NoWizard;
+  background: transparent;
+  transform: translate(-40%, 0%);
+  color: rgb(5, 6, 70);
+  font-weight: bold;
+  width: auto;
+  border: 0px solid rgb(122, 122, 122);
+  box-shadow: rgb(117 81 33) 0px 17px 57px 10px;
+  
+}
+
+#buttons input{
+  font-family: NoWizard;
+  background: transparent;
+  color: rgb(5, 6, 70);
+  font-weight: bold;
+  width: 50%;
+  border: 0px solid rgb(122, 122, 122);
+  box-shadow: rgb(117 81 33) 0px 17px 57px 10px;
+}
+
+
+#start-button{
+  position: absolute;
+  bottom: 120px;
+  left:25%;
+}
+
+.container{
+  margin-left: 35px;
+  padding: 15px;
+  position: absolute;
+  background-image: url(./images/bg.png);
+  background-size: 100% 100%;
+  /* background-size: cover; */
+  width: 94%;
+  height: 96%;
+}
+
+.page-right{
+  position:absolute;
+  right: 90px;
+  width: 45%;
+  height: 100%;
+}
+
+.page-left{
+  position:absolute;
+  width: 45%;
+  left: 30px;
+  height: 100%;
+}
+
+.page-left h1, .page-right h1{
+  width: 100%;
+  text-align: center;
+}
+
+#timer{
+  position: absolute;
+    right: 0px;
+    top: 50px;
+}
+
+#current_points{
+  position: absolute;
+    left: 0px;
+    top: 50px;
+}
+
+li {
+  list-style-type: none;
+}

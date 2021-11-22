@@ -1,0 +1,36 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<!-- BACKGROUND VIDEO -->
+<div id="overlay">
+<div class="fullscreen-bg">
+    <img src="assets/bg.png" style="width: 100%; transform: translate(-50%, -50%);" alt="" />
+</div>
+</div>
+
+<!-- END LOGO -->
+<!-- BG AUDIO -->
+<div id="audio">
+<audio id="myaudio" controls loop autoplay hidden>
+	<source src="assets/music.mp3" type="audio/mp3">
+</audio>
+</div>
+<!-- END BG AUDIO -->
+<!-- LOADING BAR -->
+<div class="loadbar">
+
+        <div class="progressBar"></div>
+    </div>
+    <script src="js/main.js"></script>
+
+    <script>
+        var audio = document.getElementById("myaudio");
+        audio.volume = 0.1;
+    </script>
+<!-- END LOADING BAR -->
+</body>
+</html>
