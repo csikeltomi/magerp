@@ -11,16 +11,16 @@ Ez a FiveM szerver nem egy Plug and Play szerver, csak tapasztalt fejlesztőknek
 
 ## Betöltő sorok (server.cfg)
 
-ensure mapmanager	
-ensure spawnmanager	
-ensure fivem-map-hipster	
-ensure sessionmanager	
-ensure fivem	
-ensure hardcap	
-ensure rconlog
-ensure mysql-async
-ensure cron
-start baseevents
+ensure mapmanager	\
+ensure spawnmanager	\
+ensure fivem-map-hipster	\
+ensure sessionmanager	\
+ensure fivem	\
+ensure hardcap	\
+ensure rconlog\
+ensure mysql-async\
+ensure cron\
+start baseevents\
 start es_extended
 start no-npc
 start esx_menu_default
