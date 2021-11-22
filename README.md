@@ -11,7 +11,7 @@ Ez a FiveM szerver nem egy Plug and Play szerver, csak tapasztalt fejlesztőknek
 
 ## Betöltő sorok (server.cfg)
 
-ensure mapmanager
+ensure mapmanager 
 ensure spawnmanager
 ensure fivem-map-hipster
 ensure sessionmanager
