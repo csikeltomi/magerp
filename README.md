@@ -7,16 +7,16 @@ Ez a FiveM szerver nem egy Plug and Play szerver, csak tapasztalt fejlesztőknek
 - Varázslást vezérlő script
 - Klánokat vezérlő script
 - Könyveket vezérlő script
-- Egyéb ...
+ ...
 
 ## Betöltő sorok (server.cfg)
 
-ensure mapmanager 
-ensure spawnmanager
-ensure fivem-map-hipster
-ensure sessionmanager
-ensure fivem
-ensure hardcap
+ensure mapmanager	
+ensure spawnmanager	
+ensure fivem-map-hipster	
+ensure sessionmanager	
+ensure fivem	
+ensure hardcap	
 ensure rconlog
 ensure mysql-async
 ensure cron
